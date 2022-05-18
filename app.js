@@ -1,7 +1,8 @@
+const dayjs = require("dayjs");
 const WebSocket = require("ws");
 
-const server = new WebSocket.Server({ port: 8080 }, () =>
-  console.log("websocket server is running at port 8080")
+const server = new WebSocket.Server({ port: 9527 }, () =>
+  console.log("websocket server is running at port 9527")
 );
 
 server.on("open", () => {
@@ -14,12 +15,14 @@ server.on("close", () => {
 
 server.on("connection", (ws, req) => {
   const user = `${req.socket.remoteAddress}:${req.socket.remotePort}`;
-  console.log(`${user} is connected`);
+  console.log(
+    `<${dayjs().format("YYYY-M-DD HH:mm:ss")}>: [${user}] is connected.`
+  );
   // 发送欢迎信息给客户端
   ws.send(
     JSON.stringify({
       isSystem: true,
-      message: `${user}, you're connected!`,
+      message: `用户<${user}>，进入聊天室请注意文明用语！`,
     })
   );
 
